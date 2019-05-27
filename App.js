@@ -1,49 +1,105 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from 'react';
+import { View, Image, TouchableOpacity } from 'react-native';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {
+  createDrawerNavigator,
+  createStackNavigator,
+  createAppContainer,
+} from 'react-navigation';
+ 
+import Cardapio from './src/pages/Cardapio';
+import Mural from './src/pages/Mural';
+import Home from './src/pages/Home';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+class NavigationDrawerStructure extends Component {
+  toggleDrawer = () => {
+    this.props.navigationProps.toggleDrawer();
+  };
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
+          <Image
+            source={require('./src/assets/images/drawer.png')}
+            style={{ width: 30, height: 30, marginLeft: 10 }}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+const Home_StackNavigator = createStackNavigator({
+
+  First: {
+    screen: Home,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Home page',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#71c837',
+      },
+      headerTintColor: '#fff',
+    }),
   },
 });
+
+const Cardapio_StackNavigator = createStackNavigator({
+
+  Second: {
+    screen: Cardapio,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Cardápio online',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#71c837',
+      },
+      headerTintColor: '#fff',
+    }),
+  },
+});
+
+const Mural_StackNavigator = createStackNavigator({
+
+  There: {
+    screen: Mural,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Mural Online',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#71c837',
+      },
+      headerTintColor: '#fff',
+    }),
+  },
+});
+
+const DrawerNavigatorExample = createDrawerNavigator({
+
+  Home: {
+    //Title
+    screen: Home_StackNavigator,
+    navigationOptions: {
+      drawerLabel: 'Home screen',
+    },
+  },
+
+  Cardapio: {
+    //Title
+    screen: Cardapio_StackNavigator,
+    navigationOptions: {
+      drawerLabel: 'Cardápio',
+    },
+  },
+  
+  Mural: {
+    //Title
+    screen: Mural_StackNavigator,
+    navigationOptions: {
+      drawerLabel: 'Mural Online',
+    },
+  },
+
+});
+ 
+export default createAppContainer(DrawerNavigatorExample);
