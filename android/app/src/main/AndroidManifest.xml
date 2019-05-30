@@ -2,6 +2,8 @@
   package="com.caang_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACESS_COARSE_LOCATION" />
 
     <application
       android:name=".MainApplication"
@@ -11,6 +13,7 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme">
       <activity
+        android:launchMode="singleTop"
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
